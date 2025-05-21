@@ -1,167 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AVIS | Avanti Vogue</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Load Supabase JS first -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Then load your custom JS -->
-    <script src="app.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AVIS | Avanti Vogue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js" defer></script>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="login-screen" class="login-container">
-        <div class="logo-container">
-            <div class="logo-circle">
-                <span class="logo-text">AV</span>
-            </div>
-            <h1>AVIS</h1>
-            <p class="tagline">Avanti Vogue Inventory Management System</p>
-        </div>
-        <div class="form-group">
-            <input type="text" id="login-email" placeholder="Login ID" class="form-input">
-            <input type="password" id="login-password" placeholder="Password" class="form-input">
-            <button id="login-btn" class="btn-primary">Login</button>
-            <button id="magic-link-btn" class="btn-secondary">Send Magic Link</button>
-            <div id="login-error" class="error-message"></div>
-        </div>
+  <!-- Login Screen -->
+  <div id="login-screen" class="login-container">
+    <div class="logo-container">
+      <div class="logo-circle"><span class="logo-text">AV</span></div>
+      <h1>AVIS</h1>
+      <p class="tagline">Avanti Vogue Inventory Management System</p>
     </div>
-
-    <!-- Main App -->
-    <div id="app-container" class="app-container hidden">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-left">
-                <div class="hamburger-menu">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <h1 class="app-title">AVIS</h1>
-            </div>
-            <div class="header-right">
-                <span id="current-user" class="user-email"></span>
-                <button id="logout-btn" class="btn-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                </button>
-            </div>
-        </header>
-
-        <!-- Sidebar -->
-        <nav id="sidebar" class="sidebar">
-            <ul class="nav-menu">
-                <li class="nav-item active" data-tab="add">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
-                        <path d="M8.5 8.5v.01"></path>
-                        <path d="M16 15.5v.01"></path>
-                        <path d="M12 12v.01"></path>
-                        <path d="M11 17v.01"></path>
-                        <path d="M7 14v.01"></path>
-                    </svg>
-                    <span>Add Garment</span>
-                </li>
-                <li class="nav-item" data-tab="search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <span>Find Garment</span>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Add Garment Tab -->
-            <div id="add-tab" class="content-tab active">
-                <div class="card">
-                    <h2 class="card-title">Scan Garment QR</h2>
-                    <div class="qr-scanner-container">
-                        <div id="qr-scanner" class="qr-scanner">
-                            <video id="qr-video" width="100%" playsinline></video>
-                            <div class="scanner-overlay"></div>
-                        </div>
-                        <div class="scanner-controls">
-                            <button id="start-scanner" class="btn-primary">Start Scanner</button>
-                            <button id="stop-scanner" class="btn-secondary hidden">Stop Scanner</button>
-                        </div>
-                    </div>
-                    <div class="scanned-result">
-                        <label>QR Code ID</label>
-                        <input type="text" id="garment-id" class="form-input" readonly>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2 class="card-title">Garment Details</h2>
-                    <div class="form-group">
-                        <label>Customer Name</label>
-                        <input type="text" id="customer-name" class="form-input" placeholder="Enter customer name">
-                    </div>
-                    <div class="form-group">
-                        <label>Garment Description</label>
-                        <input type="text" id="garment-desc" class="form-input" placeholder="e.g., Blue suit, Salwar alteration">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Rack</label>
-                            <select id="rack-select" class="form-select">
-                                <option value="S">S Rack</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Section</label>
-                            <select id="section-select" class="form-select">
-                                <option value="S1">S1</option>
-                                <option value="S2">S2</option>
-                                <option value="S3">S3</option>
-                                <option value="S4">S4</option>
-                                <option value="S5">S5</option>
-                                <option value="S6">S6</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Date Stored</label>
-                        <input type="date" id="storage-date" class="form-input">
-                    </div>
-                    <button id="save-garment" class="btn-primary">Save Garment</button>
-                    <div id="save-status" class="status-message"></div>
-                </div>
-            </div>
-
-            <!-- Search Garment Tab -->
-            <div id="search-tab" class="content-tab">
-                <div class="card">
-                    <h2 class="card-title">Find Garment</h2>
-                    <div class="search-container">
-                        <div class="search-input-group">
-                            <input type="text" id="search-input" class="form-input" placeholder="Enter customer name">
-                            <button id="search-btn" class="btn-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="search-results" class="results-container"></div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="form-group">
+      <input type="text" id="login-email" placeholder="Login ID" class="form-input" />
+      <input type="password" id="login-password" placeholder="Password" class="form-input" />
+      <button id="login-btn" class="btn-primary">Login</button>
+      <button id="magic-link-btn" class="btn-secondary">Send Magic Link</button>
+      <div id="login-error" class="error-message"></div>
     </div>
+  </div>
 
-    <!-- Load Instascan separately -->
-    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/dist/instascan.min.js"></script>
+  <!-- Main App -->
+  <div id="app-container" class="app-container hidden">
+    <header class="app-header">
+      <div class="header-left">
+        <div class="hamburger-menu">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <h1 class="app-title">AVIS</h1>
+      </div>
+      <div class="header-right">
+        <span id="current-user" class="user-email"></span>
+        <button id="logout-btn" class="btn-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <nav id="sidebar" class="sidebar">
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="add">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>
+          <span>Add Garment</span>
+        </li>
+        <li class="nav-item" data-tab="search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Find Garment</span>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      <div id="add-tab" class="content-tab active">
+        <div class="card">
+          <h2 class="card-title">Scan Garment QR</h2>
+          <div class="qr-scanner-container">
+            <div id="qr-scanner" class="qr-scanner">
+              <video id="qr-video" width="100%" playsinline></video>
+              <div class="scanner-overlay"></div>
+            </div>
+            <div class="scanner-controls">
+              <button id="start-scanner" class="btn-primary">Start Scanner</button>
+              <button id="stop-scanner" class="btn-secondary hidden">Stop Scanner</button>
+            </div>
+          </div>
+          <div class="scanned-result">
+            <label>QR Code ID</label>
+            <input type="text" id="garment-id" class="form-input" readonly />
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Garment Details</h2>
+          <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" id="customer-name" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Garment Description</label>
+            <input type="text" id="garment-desc" class="form-input" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Rack</label>
+              <select id="rack-select" class="form-select">
+                <option value="S">S Rack</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Section</label>
+              <select id="section-select" class="form-select">
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="S4">S4</option>
+                <option value="S5">S5</option>
+                <option value="S6">S6</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Date Stored</label>
+            <input type="date" id="storage-date" class="form-input" />
+          </div>
+          <button id="save-garment" class="btn-primary">Save Garment</button>
+          <div id="save-status" class="status-message"></div>
+        </div>
+      </div>
+
+      <div id="search-tab" class="content-tab">
+        <div class="card">
+          <h2 class="card-title">Find Garment</h2>
+          <div class="search-container">
+            <div class="search-input-group">
+              <input type="text" id="search-input" class="form-input" placeholder="Enter customer name" />
+              <button id="search-btn" class="btn-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </button>
+            </div>
+            <div id="search-results" class="results-container"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/dist/instascan.min.js"></script>
 </body>
 </html>
