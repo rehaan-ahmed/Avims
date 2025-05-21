@@ -8,7 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Load Supabase JS first -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Then load your custom JS -->
+    <script src="app.js" defer></script>
 </head>
 <body>
     <!-- Login Screen -->
@@ -24,6 +27,7 @@
             <input type="text" id="login-email" placeholder="Login ID" class="form-input">
             <input type="password" id="login-password" placeholder="Password" class="form-input">
             <button id="login-btn" class="btn-primary">Login</button>
+            <button id="magic-link-btn" class="btn-secondary">Send Magic Link</button>
             <div id="login-error" class="error-message"></div>
         </div>
     </div>
@@ -157,7 +161,7 @@
         </main>
     </div>
 
+    <!-- Load Instascan separately -->
     <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/dist/instascan.min.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
