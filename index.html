@@ -1,138 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AVIS | Avanti Vogue</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AVIS | AvantiVogue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div id="login-screen" class="login-container">
-    <div class="logo-container">
-      <div class="logo-circle"><span class="logo-text">AV</span></div>
-      <h1>AVIS</h1>
-      <p class="tagline">Avanti Vogue Inventory Management System</p>
-    </div>
-    <div class="form-group">
-      <input type="text" id="login-email" placeholder="Login ID" class="form-input" />
-      <input type="password" id="login-password" placeholder="Password" class="form-input" />
-      <button id="login-btn" class="btn-primary">Login</button>
-      <button id="magic-link-btn" class="btn-secondary">Send Magic Link</button>
-      <div id="login-error" class="error-message"></div>
-    </div>
-  </div>
-
-  <!-- Main App -->
-  <div id="app-container" class="app-container hidden">
-    <header class="app-header">
-      <div class="header-left">
-        <div class="hamburger-menu">
-          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="login-content">
+            <div class="logo-animation">
+                <div class="logo-circle" style="--color: #FFBF00">
+                    <span>AV</span>
+                </div>
+                <h1 class="logo-text" style="--color: #FFBF00">AVIS</h1>
+            </div>
+            
+            <p class="tagline">AvantiVogue Inventory System</p>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Email" class="form-input">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Password" class="form-input">
+                </div>
+                <button id="login-btn" class="btn-primary">
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button id="magic-link-btn" class="btn-secondary">
+                    <span>Send Magic Link</span>
+                    <i class="fas fa-link"></i>
+                </button>
+                <div id="login-error" class="error-message"></div>
+            </div>
         </div>
-        <h1 class="app-title">AVIS</h1>
-      </div>
-      <div class="header-right">
-        <span id="current-user" class="user-email"></span>
-        <button id="logout-btn" class="btn-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Floating Action Button -->
+        <button class="fab" id="fab-menu">
+            <i class="fas fa-bars"></i>
         </button>
-      </div>
-    </header>
 
-    <nav id="sidebar" class="sidebar">
-      <ul class="nav-menu">
-        <li class="nav-item active" data-tab="add">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>
-          <span>Add Garment</span>
-        </li>
-        <li class="nav-item" data-tab="search">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span>Find Garment</span>
-        </li>
-      </ul>
-    </nav>
+        <!-- Sidebar Navigation -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">
+                        <span id="user-initials">AV</span>
+                    </div>
+                    <div class="user-details">
+                        <span id="current-user">Admin</span>
+                        <small id="user-email">admin@avis.com</small>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-tab="add">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Garment</span>
+                </li>
+                <li class="nav-item" data-tab="search">
+                    <i class="fas fa-search"></i>
+                    <span>Find Garment</span>
+                </li>
+                <li class="nav-item" data-tab="inventory">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </li>
+            </ul>
+        </nav>
 
-    <main class="main-content">
-      <div id="add-tab" class="content-tab active">
-        <div class="card">
-          <h2 class="card-title">Scan Garment QR</h2>
-          <div class="qr-scanner-container">
-            <div id="qr-scanner" class="qr-scanner">
-              <video id="qr-video" width="100%" playsinline></video>
-              <div class="scanner-overlay"></div>
-            </div>
-            <div class="scanner-controls">
-              <button id="start-scanner" class="btn-primary">Start Scanner</button>
-              <button id="stop-scanner" class="btn-secondary hidden">Stop Scanner</button>
-            </div>
-          </div>
-          <div class="scanned-result">
-            <label>QR Code ID</label>
-            <input type="text" id="garment-id" class="form-input" readonly />
-          </div>
-        </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Add Garment Tab -->
+            <div id="add-tab" class="content-tab active">
+                <div class="section-header">
+                    <h2>Add New Garment</h2>
+                    <p>Scan and register new garments</p>
+                </div>
+                
+                <div class="card scan-card">
+                    <div class="card-header">
+                        <i class="fas fa-qrcode"></i>
+                        <h3>Scan Garment QR</h3>
+                    </div>
+                    <div class="qr-scanner-container">
+                        <div id="qr-scanner" class="qr-scanner">
+                            <video id="qr-video" width="100%" playsinline></video>
+                            <div class="scanner-overlay"></div>
+                        </div>
+                        <div class="scanner-controls">
+                            <button id="start-scanner" class="btn-primary">
+                                <i class="fas fa-camera"></i>
+                                <span>Start Scanner</span>
+                            </button>
+                            <button id="stop-scanner" class="btn-secondary hidden">
+                                <i class="fas fa-stop"></i>
+                                <span>Stop Scanner</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="scanned-result">
+                        <div class="input-group">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="garment-id" class="form-input" placeholder="QR Code ID" readonly>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="card">
-          <h2 class="card-title">Garment Details</h2>
-          <div class="form-group">
-            <label>Customer Name</label>
-            <input type="text" id="customer-name" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label>Garment Description</label>
-            <input type="text" id="garment-desc" class="form-input" />
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Rack</label>
-              <select id="rack-select" class="form-select">
-                <option value="S">S Rack</option>
-              </select>
+                <div class="card details-card">
+                    <div class="card-header">
+                        <i class="fas fa-tshirt"></i>
+                        <h3>Garment Details</h3>
+                    </div>
+                    <div class="form-section">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="customer-name" class="form-input" placeholder="Customer Name">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-info-circle"></i>
+                            <input type="text" id="garment-desc" class="form-input" placeholder="Garment Description">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="input-group">
+                                <i class="fas fa-warehouse"></i>
+                                <select id="rack-select" class="form-select">
+                                    <option value="">Select Rack</option>
+                                    <option value="S">S Rack</option>
+                                    <option value="A">A Rack</option>
+                                    <option value="B">B Rack</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-layer-group"></i>
+                                <select id="section-select" class="form-select">
+                                    <option value="">Select Section</option>
+                                    <option value="S1">S1</option>
+                                    <option value="S2">S2</option>
+                                    <option value="S3">S3</option>
+                                    <option value="S4">S4</option>
+                                    <option value="S5">S5</option>
+                                    <option value="S6">S6</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" id="storage-date" class="form-input">
+                        </div>
+                        
+                        <button id="save-garment" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            <span>Save Garment</span>
+                        </button>
+                        
+                        <div id="save-status" class="status-message"></div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <label>Section</label>
-              <select id="section-select" class="form-select">
-                <option value="S1">S1</option>
-                <option value="S2">S2</option>
-                <option value="S3">S3</option>
-                <option value="S4">S4</option>
-                <option value="S5">S5</option>
-                <option value="S6">S6</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Date Stored</label>
-            <input type="date" id="storage-date" class="form-input" />
-          </div>
-          <button id="save-garment" class="btn-primary">Save Garment</button>
-          <div id="save-status" class="status-message"></div>
-        </div>
-      </div>
 
-      <div id="search-tab" class="content-tab">
-        <div class="card">
-          <h2 class="card-title">Find Garment</h2>
-          <div class="search-container">
-            <div class="search-input-group">
-              <input type="text" id="search-input" class="form-input" placeholder="Enter customer name" />
-              <button id="search-btn" class="btn-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </button>
+            <!-- Search Garment Tab -->
+            <div id="search-tab" class="content-tab">
+                <div class="section-header">
+                    <h2>Find Garment</h2>
+                    <p>Search for registered garments</p>
+                </div>
+                
+                <div class="card search-card">
+                    <div class="search-container">
+                        <div class="search-input-group">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="search-input" class="form-input" placeholder="Search by customer name...">
+                            <button id="search-btn" class="btn-icon">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div id="search-results" class="results-container">
+                            <div class="empty-state">
+                                <i class="fas fa-search"></i>
+                                <p>Enter a customer name to search</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="search-results" class="results-container"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+            
+            <!-- Inventory Tab -->
+            <div id="inventory-tab" class="content-tab">
+                <div class="section-header">
+                    <h2>Inventory Overview</h2>
+                    <p>View all garments in storage</p>
+                </div>
+                
+                <div class="card inventory-card">
+                    <div class="inventory-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-garments">0</div>
+                            <div class="stat-label">Total Garments</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="rack-s-count">0</div>
+                            <div class="stat-label">S Rack Items</div>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-list" id="inventory-list">
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No inventory data available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/dist/instascan.min.js"></script>
+    <!-- Load Instascan separately -->
+    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/dist/instascan.min.js"></script>
 </body>
 </html>
